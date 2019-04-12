@@ -1,0 +1,34 @@
+# restaurants collection
+db.restaurant.count({"address.zipcode":"10462"})
+150
+
+db.restaurant.count({"grades.score":{$gte:10}})
+21165
+
+db.restaurant.find({"address.zipcode":"10462"},{"name":1,"_id":0}).limit(10)
+{ "name" : "Morris Park Bake Shop" }
+{ "name" : "The New Starling Athletic Club Of The Bronx" }
+{ "name" : "Lulu'S Coffee Shop" }
+{ "name" : "Bronx Grill" }
+{ "name" : "Sabrosura Restaurant" }
+{ "name" : "John & Joe Pizzeria & Restaurant" }
+{ "name" : "Castlehill Diner" }
+{ "name" : "Venice Pizza" }
+{ "name" : "Wendy'S" }
+{ "name" : "The Pizza Place" }
+
+db.restaurant.distinct("cuisine",{"borough":"Brooklyn"}).length
+80
+
+db.restaurant.aggregate({$match:{"borough":"Manhattan"}},{$group:{"_id":"$cuisine","counts":{$sum:1}}},{$sort:{counts:-1}},{$limit:10})
+
+{ "_id" : "American", "counts" : 3205 }
+{ "_id" : "Café/Coffee/Tea", "counts" : 680 }
+{ "_id" : "Italian", "counts" : 621 }
+{ "_id" : "Chinese", "counts" : 510 }
+{ "_id" : "Japanese", "counts" : 438 }
+{ "_id" : "Other", "counts" : 371 }
+{ "_id" : "Pizza", "counts" : 339 }
+{ "_id" : "Mexican", "counts" : 273 }
+{ "_id" : "French", "counts" : 266 }
+{ "_id" : "Bakery", "counts" : 221 }
